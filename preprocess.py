@@ -56,10 +56,11 @@ def preprocess_tweet(tweet):
     tweet = re.sub(r'\s+', ' ', tweet)
     words = tweet.split()
 
-    porter_stemmer = PorterStemmer()
+    # porter_stemmer = PorterStemmer()
     for word in words:
         word = preprocess_word(word)
         if is_valid_word(word):
+            # word = str(porter_stemmer.stem(word))
             processed_tweet.append(word)
 
     return ' '.join(processed_tweet)

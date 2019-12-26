@@ -95,6 +95,7 @@ def process_tweets(csv_file, test_file=True):
             if test_file:
                 tweet_id, tweet = line.split(',')
             else:
+                print(line.split(','))
                 tweet_id, tweet, sentiment = line.split(',')
             feature_vector = get_feature_vector(tweet)
             if test_file:
