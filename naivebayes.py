@@ -1,11 +1,11 @@
-from sklearn import svm
 import utils
 import random
 import numpy as np
+from sklearn.naive_bayes import MultinomialNB
 from scipy.sparse import lil_matrix
 from sklearn.feature_extraction.text import TfidfTransformer
 
-# Performs classification using SVM.
+# Performs classification using Naive Bayes.
 
 FREQ_DIST_FILE = 'freqdist.pkl'
 BI_FREQ_DIST_FILE = 'freqdist-bi.pkl'
@@ -36,7 +36,6 @@ def get_feature_vector(tweet):
     if len(words) >= 1:
         if unigrams.get(words[-1]):
             uni_feature_vector.append(words[-1])
-    print(uni_feature_vector, bi_feature_vector)
     return uni_feature_vector, bi_feature_vector
 
 
@@ -117,7 +116,7 @@ else:
     train_tweets = tweets
 del tweets
 print ('Extracting features & training batches')
-clf = svm.LinearSVC(C=0.1)
+clf = MultinomialNB()
 batch_size = len(train_tweets)
 i = 1
 n_train_batches = int(np.ceil(len(train_tweets) / float(batch_size)))
@@ -127,7 +126,7 @@ for training_set_X, training_set_y in extract_features(train_tweets, test_file=F
     if FEAT_TYPE == 'frequency':
         tfidf = apply_tf_idf(training_set_X)
         training_set_X = tfidf.transform(training_set_X)
-    clf.fit(training_set_X, training_set_y)
+    clf.partial_fit(training_set_X, training_set_y, classes=[0, 1])
 print ('\n')
 print ('Testing')
 # TRAIN = False
@@ -160,5 +159,5 @@ else:
         i += 1
     predictions = [(str(j), int(predictions[j]))
                    for j in range(len(test_tweets))]
-    utils.save_results_to_csv(predictions, 'svm.csv')
-    print ('\nSaved to svm.csv')
+    utils.save_results_to_csv(predictions, 'naivebayes.csv')
+    print ('\nSaved to naivebayes.csv')

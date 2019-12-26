@@ -101,6 +101,7 @@ bi_pkl_file_name = 'freqdist-bi.pkl'
 with open(bi_pkl_file_name, 'wb') as pkl_file:
     pickle.dump(bigram_freq_dist, pkl_file)
 print ('Saved bi-frequency distribution to %s' % bi_pkl_file_name)
+
 print ('\n[Analysis Statistics]')
 print ('Tweets => Total: %d, Positive: %d, Negative: %d' % (num_tweets, num_pos_tweets, num_neg_tweets))
 print ('User Mentions => Total: %d, Avg: %.4f, Max: %d' % (num_mentions, num_mentions / float(num_tweets), max_mentions))
